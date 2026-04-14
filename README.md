@@ -12,7 +12,7 @@ Our goal is to provide a comprehensive benchmark for mosaiced and PAN image fusi
 
 ## 📂 Project Structure
 
-This repository contains **13 individual projects** (sub-folders), including:
+This repository contains **9 individual projects** (sub-folders), including:
 
 - **Proposed Method:** `EBVIF`
 - **Competing Methods:** `PPID_PanGAN`, `PPID_VBPN`, `SpNet_PanGAN`, `SpNet_VBPN`, `SFNet_PanGAN`, `SFNet_VBPN`, `LSAN_PanGAN`, `LSAN_VBPN`.
