@@ -105,8 +105,11 @@ def train(ps_net: nn.Module, dis_spe: nn.Module, dis_spa: nn.Module, optimizers,
                 mosaic, lrms, pan = data[0].to(device), data[1].to(device), data[2].to(device)
                 fused = ps_net(lrms, pan).detach()
                 fused = torch.clamp(torch.round(fused*2**12), 0, 2**12).short()
-
-                qnr, d_lambda, d_s = quality_index.calc_qnr_mosaic(fused.double()/2**12, mosaic.double(), pan.double(), msfa_kernel, patch_size=32, scale_factor=args.spatial_ratio)
+                mosaic = torch.clamp(torch.round(mosaic*2**12), 0, 2**12).short()
+                pan = torch.clamp(torch.round(pan*2**12), 0, 2**12).short()
+                
+                qnr, d_lambda, d_s = quality_index.calc_qnr_mosaic(fused.double(), mosaic.double(), pan.double(), msfa_kernel, patch_size=64, scale_factor=args.spatial_ratio)
+              
                 qnr_avg += qnr.item()
                 d_lambda_avg += d_lambda.item()
                 d_s_avg += d_s.item()

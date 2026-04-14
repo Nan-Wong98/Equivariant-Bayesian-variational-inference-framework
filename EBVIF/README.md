@@ -1,12 +1,6 @@
 # 📖 Introduction
 
-This competing approach consists of two sequential stages:
-
-1. **Demosaicing** using **PPID**
-2. **Pansharpening** using **VBPN**
-
-Notably, the demosaicing network does **not** require training.  
-Only the pansharpening network (**VBPN**) is trained in this framework.
+Compared to competing methods, this proposed method is a one-step method.
 
 ---
 
@@ -30,57 +24,55 @@ Dataset/
 
 The command lines for **training**, **generation**, **testing**, and **visualization** are provided below.
 
+
 # 1. Train
 ## 🟢 CAVE 
-### pansharpening
 ```
-python train_pansharpening_simulate.py --idx 2 --data_path ../../DataSet --dataset CAVE --epochs 1000 --train_size 64 --stride 32 --batch_size 16 --lr_decay --save_freq 50 --device 4 --noise_level 0.01 0.05
+python train_simulate.py --idx 1 --data_path ../../DataSet --dataset CAVE --epochs 100 --train_size 64 --stride 32 --batch_size 16 --lr_decay --save_freq 50 --device 7 --noise_level 0.01 0.05
 ```
 
 ## 🔵 ICVL
-### pansharpening
 ```
-python train_pansharpening_simulate.py --idx 4 --data_path ../../DataSet --dataset ICVL --epochs 10 --train_size 64 --stride 64 --batch_size 16 --lr_decay --save_freq 5 --device 6 --noise_level 0.008 0.01
+python train_simulate.py --idx 2 --data_path ../../DataSet --dataset ICVL --epochs 10 --train_size 64 --stride 64 --batch_size 16 --lr_decay --save_freq 5 --device 7 --noise_level 0.008 0.01
 ```
 
 ## 🟠 realworld dataset
-### pansharpening
 ```
-python train_pansharpening_realworld.py --idx 6 --data_path ../../DataSet --dataset real_world --epochs 10 --train_size 64 --stride 64 --batch_size 16 --lr_decay --save_freq 1 --visual --visual_freq 1 --device 4
+python train_realworld.py --idx 3 --data_path ../../DataSet --dataset real_world --epochs 10 --train_size 64 --stride 64 --batch_size 16 --lr_decay --save_freq 1 --visual --visual_freq 1 --device 6
 ```
 
 # 2. Generate
 ## 🟢 CAVE
 ### generate all
 ```
-python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset CAVE --load_ps_model ./2/model/best_18.pth --noise_level 0.01 0.05
+python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset CAVE --load_model ./1/model/best_47.pth --noise_level 0.01 0.05
 ```
 
 ### generate single
 ```
-python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset CAVE --load_ps_model ./2/model/best_18.pth --noise_level 0.01 0.05 --data_id jelly_beans_ms.mat
+python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset CAVE --load_model ./1/model/best_47.pth --noise_level 0.01 0.05 --data_id jelly_beans_ms.mat
 ```
 
 ## 🔵 ICVL
 ### generate all
 ```
-python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset ICVL --load_ps_model ./4/model/best_3.pth --noise_level 0.008 0.01
+python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset ICVL --load_model ./2/model/best_7.pth --noise_level 0.008 0.01
 ```
 
 ### generate single
 ```
-python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset ICVL --load_ps_model ./4/model/best_3.pth --noise_level 0.008 0.01 --data_id pepper_0503-1228.mat
+python generate.py --idx 1 --simulate --mosaic_save --pan_save --demosaic_save --gt_save --data_path ../../DataSet/ --dataset ICVL --load_model ./2/model/best_7.pth --noise_level 0.008 0.01 --data_id pepper_0503-1228.mat
 ```
 
 ## 🟠 RealWorld
 ### generate all
 ```
-python generate.py --idx 1 --real_world --mosaic_save --pan_save --demosaic_save --data_path ../../DataSet/ --dataset real_world --load_ps_model ./6/model/best_3.pth
+python generate.py --idx 1 --real_world --mosaic_save --pan_save --demosaic_save --data_path ../../DataSet/ --dataset real_world --load_model ./3/model/best_4.pth
 ```
 
 ### generate single
 ```
-python generate.py --idx 1 --real_world --mosaic_save --pan_save --demosaic_save --data_path ../../DataSet/ --dataset real_world --load_ps_model ./6/model/best_3.pth --data_id 1.raw 16.raw 37.raw
+python generate.py --idx 1 --real_world --mosaic_save --pan_save --demosaic_save --data_path ../../DataSet/ --dataset real_world --load_model ./3/model/best_4.pth --data_id 1.raw 16.raw 37.raw
 ```
 
 # 3. test

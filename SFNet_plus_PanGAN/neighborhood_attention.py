@@ -59,15 +59,15 @@ class NeighborhoodAttention(nn.Module): #It can only use static size as input,bu
     def attention(self,x):
         B,C,H,W = x.shape
         assert H >= self.window_size and W >= self.window_size,'input size must not be smaller than window size'
-        self.set_input_size((H, W))
+        attn_idx, bias_idx = self.set_input_size((H, W))
         qkv = self.qkv(x).view(B, 3,self.num_heads,C//self.num_heads,H*W).permute(1, 0, 2, 4, 3)
         q, k, v = qkv[0], qkv[1], qkv[2]
         q = q * self.scale
-        attn = q.unsqueeze(3) @ k[:,:,self.attn_idx].transpose(-1,-2) #B,nh,L,1,K^2
-        attn = attn + self.relative_bias[self.bias_idx].permute(2, 0, 1).unsqueeze(2)
+        attn = q.unsqueeze(3) @ k[:,:, attn_idx].transpose(-1,-2) #B,nh,L,1,K^2
+        attn = attn + self.relative_bias[bias_idx].permute(2, 0, 1).unsqueeze(2)
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)
-        x = (attn @ v[:,:,self.attn_idx]).squeeze(3).transpose(-1,-2).contiguous().view(B,C,H,W)
+        x = (attn @ v[:,:, attn_idx]).squeeze(3).transpose(-1,-2).contiguous().view(B,C,H,W)
         return x
         
     def get_bias_idx(self,H,W):
@@ -105,8 +105,7 @@ class NeighborhoodAttention(nn.Module): #It can only use static size as input,bu
         assert H >= self.window_size and W >= self.window_size,'input size must not be smaller than window size'
         attn_idx = self.get_attn_idx(H,W)
         bias_idx = self.get_bias_idx(H,W)
-        self.register_buffer("attn_idx", attn_idx)
-        self.register_buffer("bias_idx",bias_idx)
+        return attn_idx, bias_idx
         
 class NATLayer(nn.Module):
     def __init__(self, dim, num_heads,window_size=7,
