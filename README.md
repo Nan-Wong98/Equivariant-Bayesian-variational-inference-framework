@@ -37,7 +37,7 @@ Two stage: demosaicing + pansharpening
 | Component | CAVE | ICVL | Real-world | Note |
 | :--- | :---: | :---: | :---: | :--- |
 | **Demosaicing** | Folder "1" | Folder "3" | Folder "5" | Used for SpNet, SFNet, LSAN |
-| **Pansharpening**| Folder "2" | Folder "4" | Folder "6" | Used for PanGAN, VBPN, WFANet |
+| **Pansharpening**| Folder "2" | Folder "4" | Folder "6" | Used for PanGAN, VBPN |
 
 > **Note:** PPID uses a traditional demosaicing algorithm and does not require pretrained weights for the first stage.
 
