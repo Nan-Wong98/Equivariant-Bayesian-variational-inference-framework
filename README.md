@@ -1,6 +1,6 @@
 # Equivariant Bayesian Hyperspectral Imaging via Mosaiced and PAN Image Fusion
 
-[![Paper](https://ieeexplore.ieee.org/document/11480451)]
+[![IEEE Xplore](https://img.shields.io/badge/IEEE_Xplore-Paper-00629B?style=flat-square&logo=ieee&logoColor=white)](https://ieeexplore.ieee.org/document/11480451)
 
 Official PyTorch implementation of the paper: **"Equivariant Bayesian Hyperspectral Imaging via Mosaiced and PAN Image Fusion"**.
 
